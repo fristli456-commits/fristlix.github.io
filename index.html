@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>FristliX</title>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#0b0b0b;
+    color:white;
+}
+
+/* HEADER */
+header{
+    background:#000;
+    border-bottom:2px solid red;
+    padding:15px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+header h1{
+    color:red;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin:0 10px;
+}
+
+nav a:hover{
+    color:red;
+}
+
+/* PROFILE ICON */
+#profileIcon{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    border:2px solid red;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    color:red;
+    font-size:20px;
+}
+
+/* HERO */
+.hero{
+    height:70vh;
+    background:linear-gradient(135deg,#000,#1a0000);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.hero h2{
+    color:red;
+    font-size:40px;
+}
+
+.hero p{
+    max-width:500px;
+    margin-top:10px;
+    color:#ccc;
+}
+
+.btn{
+    margin-top:15px;
+    padding:10px 20px;
+    background:red;
+    border:none;
+    color:white;
+    cursor:pointer;
+}
+
+.btn:hover{
+    background:#b00000;
+}
+
+/* PROFILE MODAL */
+#profileModal{
+    display:none;
+    position:fixed;
+    top:0;left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.8);
+    z-index:999;
+}
+
+.modalBox{
+    background:#111;
+    border:2px solid red;
+    border-radius:10px;
+    width:90%;
+    max-width:400px;
+    margin:80px auto;
+    padding:20px;
+    text-align:center;
+}
+
+.modalBox h2,h3{
+    color:red;
+}
+
+.modalBox input{
+    width:100%;
+    padding:10px;
+    margin:5px 0;
+    background:#000;
+    border:1px solid red;
+    color:white;
+    border-radius:5px;
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:15px;
+    border-top:2px solid red;
+    background:black;
+    color:#aaa;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>FRISTLIX</h1>
+    <div style="display:flex;align-items:center;gap:15px;">
+        <nav>
+            <a href="#">Главная</a>
+            <a href="#">Магазин ботов</a>
+            <a href="#">Поддержка</a>
+        </nav>
+        <div id="profileIcon" onclick="openProfile()">👤</div>
+    </div>
+</header>
+
+<section class="hero">
+    <h2>Продажа Telegram ботов</h2>
+    <p>Покупай, тестируй и управляй ботами в одном месте</p>
+    <button class="btn">Перейти в магазин</button>
+</section>
+
+<footer>
+    © 2026 FristliX
+</footer>
+
+<!-- PROFILE WINDOW -->
+<div id="profileModal">
+    <div class="modalBox">
+
+        <h2>Профиль</h2>
+
+        <div id="authBlock">
+            <button class="btn" onclick="showLogin()">Войти</button>
+            <button class="btn" onclick="showRegister()">Регистрация</button>
+        </div>
+
+ <div id="loginBlock" style="display:none;">
+    <h3>Вход</h3>
+    <input id="loginEmail" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Пароль">
+    <button class="btn" onclick="login()">Войти</button>
+    <button class="btn">Войти через Google</button>
+</div>
+
+ <div id="registerBlock" style="display:none;">
+    <h3>Регистрация</h3>
+    <input id="regNick" placeholder="Ник">
+    <input id="regEmail" placeholder="Email">
+    <input id="regPassword" type="password" placeholder="Пароль">
+    <input id="regPassword2" type="password" placeholder="Повторите пароль">
+    <button class="btn" onclick="sendCode()">Отправить код</button>
+</div>
+
+ <div id="codeBlock" style="display:none;">
+    <h3>Введите код</h3>
+    <input id="confirmCode" placeholder="Код из письма">
+    <button class="btn" onclick="createProfile()">Подтвердить</button>
+</div>
+
+        <button class="btn" onclick="closeProfile()">Закрыть</button>
+
+    </div>
+</div>
+
+<script>
+function openProfile(){
+    document.getElementById("profileModal").style.display = "block";
+    document.getElementById("authBlock").style.display = "block";
+    hideOthers();
+}
+
+function closeProfile(){
+    document.getElementById("profileModal").style.display = "none";
+}
+
+function hideOthers(){
+    document.getElementById("loginBlock").style.display = "none";
+    document.getElementById("registerBlock").style.display = "none";
+    document.getElementById("codeBlock").style.display = "none";
+}
+
+function showLogin(){
+    hideOthers();
+    document.getElementById("authBlock").style.display = "none";
+    document.getElementById("loginBlock").style.display = "block";
+}
+
+function showRegister(){
+    hideOthers();
+    document.getElementById("authBlock").style.display = "none";
+    document.getElementById("registerBlock").style.display = "block";
+}
+
+function sendCode(){
+    let pass1 = document.getElementById("regPassword").value;
+    let pass2 = document.getElementById("regPassword2").value;
+
+    if(pass1 === "" || pass2 === ""){
+        alert("Введите пароль");
+        return;
+    }
+
+    if(pass1 !== pass2){
+        alert("Пароли не совпадают");
+        return;
+    }
+
+    hideOthers();
+    document.getElementById("codeBlock").style.display = "block";
+    alert("Код отправлен на почту (пока это макет)");
+}
+
+function createProfile(){
+    let code = document.getElementById("confirmCode").value;
+
+    if(code === ""){
+        alert("Введите код");
+        return;
+    }
+
+    alert("Профиль успешно создан! (пока без сервера)");
+    closeProfile();
+}
+
+function login(){
+    let email = document.getElementById("loginEmail").value;
+    let pass = document.getElementById("loginPassword").value;
+
+    if(email === "" || pass === ""){
+        alert("Введите email и пароль");
+        return;
+    }
+
+    alert("Вход выполнен (пока без сервера)");
+    closeProfile();
+}
+</script>
+
+</body>
+</html>
