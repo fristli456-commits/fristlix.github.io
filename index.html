@@ -11,9 +11,12 @@ import {
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
   signOut, 
-  onAuthStateChanged 
+  onAuthStateChanged,
+  updateEmail,
+  updatePassword
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+/* Firebase config */
 const firebaseConfig = {
   apiKey: "AIzaSyBYXn3CBVRWocJW6V8nqqZyeHSTrmVwvcw",
   authDomain: "fristlix.firebaseapp.com",
@@ -29,6 +32,7 @@ const auth = getAuth(app);
 
 let isLoading = false;
 
+/* Красивые ошибки */
 function showError(status, e) {
   status.style.color = "#ff4444";
 
@@ -36,39 +40,30 @@ function showError(status, e) {
     case "auth/invalid-credential":
       status.textContent = "Неверная почта или пароль";
       break;
-
     case "auth/wrong-password":
       status.textContent = "Неверный пароль";
       break;
-
     case "auth/user-not-found":
       status.textContent = "Аккаунт с такой почтой не найден";
       break;
-
     case "auth/email-already-in-use":
       status.textContent = "Этот email уже зарегистрирован";
       break;
-
     case "auth/weak-password":
       status.textContent = "Пароль слишком простой (минимум 6 символов)";
       break;
-
     case "auth/too-many-requests":
       status.textContent = "Слишком много попыток. Подождите пару минут ⏳";
       break;
-
     case "auth/invalid-email":
       status.textContent = "Неверный формат email";
       break;
-
     case "auth/missing-password":
       status.textContent = "Введите пароль";
       break;
-
     case "auth/missing-email":
       status.textContent = "Введите email";
       break;
-
     default:
       status.textContent = "Ошибка входа. Проверьте данные.";
       console.error(e);
@@ -76,7 +71,7 @@ function showError(status, e) {
   }
 }
 
-
+/* Регистрация */
 window.register = async () => {
   if (isLoading) return;
   isLoading = true;
@@ -96,6 +91,7 @@ window.register = async () => {
   }
 };
 
+/* Вход */
 window.login = async () => {
   if (isLoading) return;
   isLoading = true;
@@ -115,30 +111,87 @@ window.login = async () => {
   }
 };
 
+/* Выход */
 window.logout = async () => {
   await signOut(auth);
 };
 
+/* Открыть настройки */
+window.openSettings = () => {
+  document.getElementById("profile").style.display = "none";
+  document.getElementById("settings").style.display = "block";
+};
+
+/* Закрыть настройки */
+window.closeSettings = () => {
+  document.getElementById("settings").style.display = "none";
+  document.getElementById("profile").style.display = "block";
+};
+
+/* Смена email */
+window.changeEmail = async () => {
+  const user = auth.currentUser;
+  const newEmail = document.getElementById("new-email").value;
+  const status = document.getElementById("status");
+
+  if (!newEmail) {
+    status.style.color = "#ff4444";
+    status.textContent = "Введите новый email";
+    return;
+  }
+
+  try {
+    await updateEmail(user, newEmail);
+    status.style.color = "#00ff99";
+    status.textContent = "Email успешно изменён!";
+  } catch (e) {
+    showError(status, e);
+  }
+};
+
+/* Смена пароля */
+window.changePassword = async () => {
+  const user = auth.currentUser;
+  const newPassword = document.getElementById("new-password").value;
+  const status = document.getElementById("status");
+
+  if (newPassword.length < 6) {
+    status.style.color = "#ff4444";
+    status.textContent = "Пароль должен быть минимум 6 символов";
+    return;
+  }
+
+  try {
+    await updatePassword(user, newPassword);
+    status.style.color = "#00ff99";
+    status.textContent = "Пароль успешно изменён!";
+  } catch (e) {
+    showError(status, e);
+  }
+};
+
+/* Проверка авторизации */
 onAuthStateChanged(auth, (user) => {
   const status = document.getElementById("status");
   const profileEmail = document.getElementById("profile-email");
 
   if (user) {
     status.innerHTML = `Вы вошли как: <b>${user.email}</b>`;
-    profileEmail.textContent = user.email;
+    if (profileEmail) profileEmail.textContent = user.email;
 
     document.getElementById("auth").style.display = "none";
     document.getElementById("profile").style.display = "block";
-
-    document.getElementById("profile-email").textContent = user.email;
-
+    document.getElementById("settings").style.display = "none";
   } else {
     status.textContent = "Вы не вошли";
+
     document.getElementById("auth").style.display = "flex";
     document.getElementById("profile").style.display = "none";
+    document.getElementById("settings").style.display = "none";
   }
 });
 </script>
+  
 
 <style>
 * {
@@ -324,11 +377,26 @@ button:hover {
   <div class="profile-card">
     <div class="avatar">👤</div>
     <h2>Профиль</h2>
-    <div id="profile-email">email@example.com</div>
+    <p id="profile-email"></p>
 
     <div class="profile-actions">
-      <button class="profile-btn">Настройки</button>
+      <button class="profile-btn" onclick="openSettings()">Настройки</button>
       <button class="profile-btn danger" onclick="logout()">Выйти</button>
+    </div>
+  </div>
+</div>
+
+<div id="settings" style="display:none;">
+  <div class="profile-card">
+    <h2>Настройки</h2>
+
+    <input id="new-email" placeholder="Новый Email">
+    <input id="new-password" type="password" placeholder="Новый пароль">
+
+    <div class="profile-actions">
+      <button class="profile-btn" onclick="changeEmail()">Сменить Email</button>
+      <button class="profile-btn" onclick="changePassword()">Сменить пароль</button>
+      <button class="profile-btn danger" onclick="closeSettings()">Назад</button>
     </div>
   </div>
 </div>
