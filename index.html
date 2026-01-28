@@ -27,35 +27,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-window.register = async () => {
-  const email = document.getElementById("reg-email").value;
-  const password = document.getElementById("reg-password").value;
-  const status = document.getElementById("status");
+let isLoading = false;
 
-  try {
-    await createUserWithEmailAndPassword(auth, email, password);
-    status.style.color = "#00ff99";
-    status.textContent = "Вы успешно зарегистрировались!";
-  } catch (e) {
-    status.style.color = "#ff4444";
-    status.textContent = e.message;
-  }
-};
-
-window.login = async () => {
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
-  const status = document.getElementById("status");
-
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-    status.style.color = "#00ff99";
-    status.textContent = "Вы успешно вошли!";
-  catch (e) {
+function showError(status, e) {
   status.style.color = "#ff4444";
 
   if (e.code === "auth/too-many-requests") {
-    status.textContent = "Слишком много попыток. Подождите несколько минут ⏳";
+    status.textContent = "Слишком много попыток. Подождите пару минут ⏳";
   } else if (e.code === "auth/wrong-password") {
     status.textContent = "Неверный пароль";
   } else if (e.code === "auth/user-not-found") {
@@ -69,19 +47,58 @@ window.login = async () => {
   }
 }
 
+window.register = async () => {
+  if (isLoading) return;
+  isLoading = true;
+
+  const email = document.getElementById("reg-email").value;
+  const password = document.getElementById("reg-password").value;
+  const status = document.getElementById("status");
+
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    status.style.color = "#00ff99";
+    status.textContent = "Вы успешно зарегистрировались!";
+  } catch (e) {
+    showError(status, e);
+  } finally {
+    isLoading = false;
+  }
+};
+
+window.login = async () => {
+  if (isLoading) return;
+  isLoading = true;
+
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+  const status = document.getElementById("status");
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    status.style.color = "#00ff99";
+    status.textContent = "Вы успешно вошли!";
+  } catch (e) {
+    showError(status, e);
+  } finally {
+    isLoading = false;
+  }
+};
+
 window.logout = async () => {
   await signOut(auth);
 };
 
 onAuthStateChanged(auth, (user) => {
   const status = document.getElementById("status");
+
   if (user) {
     status.innerHTML = `Вы вошли как: <b>${user.email}</b>`;
     document.getElementById("auth").style.display = "none";
     document.getElementById("profile").style.display = "block";
   } else {
-    status.innerHTML = "Вы не вошли";
-    document.getElementById("auth").style.display = "block";
+    status.textContent = "Вы не вошли";
+    document.getElementById("auth").style.display = "flex";
     document.getElementById("profile").style.display = "none";
   }
 });
@@ -191,14 +208,14 @@ button:hover {
       <h2>Регистрация</h2>
       <input id="reg-email" placeholder="Email">
       <input id="reg-password" type="password" placeholder="Пароль">
-      <button onclick="register()">Создать аккаунт</button>
+      <button type="button" onclick="register()">Создать аккаунт</button>
     </div>
 
     <div class="box">
       <h2>Вход</h2>
       <input id="login-email" placeholder="Email">
       <input id="login-password" type="password" placeholder="Пароль">
-      <button onclick="login()">Войти</button>
+      <button type="button" onclick="login()">Войти</button>
     </div>
   </div>
 
@@ -206,10 +223,13 @@ button:hover {
     <div class="profile-box">
       <h2>Профиль</h2>
       <p>Вы успешно вошли 🎉</p>
-      <button onclick="logout()">Выйти</button>
+      <button type="button" onclick="logout()">Выйти</button>
     </div>
   </div>
 </div>
+
+</body>
+</html>
 
 </body>
 </html>
