@@ -32,20 +32,50 @@ let isLoading = false;
 function showError(status, e) {
   status.style.color = "#ff4444";
 
-  if (e.code === "auth/too-many-requests") {
-    status.textContent = "Слишком много попыток. Подождите пару минут ⏳";
-  } else if (e.code === "auth/wrong-password") {
-    status.textContent = "Неверный пароль";
-  } else if (e.code === "auth/user-not-found") {
-    status.textContent = "Пользователь не найден";
-  } else if (e.code === "auth/email-already-in-use") {
-    status.textContent = "Этот email уже зарегистрирован";
-  } else if (e.code === "auth/weak-password") {
-    status.textContent = "Пароль слишком простой (минимум 6 символов)";
-  } else {
-    status.textContent = "Ошибка: " + e.message;
+  switch (e.code) {
+    case "auth/invalid-credential":
+      status.textContent = "Неверная почта или пароль";
+      break;
+
+    case "auth/wrong-password":
+      status.textContent = "Неверный пароль";
+      break;
+
+    case "auth/user-not-found":
+      status.textContent = "Аккаунт с такой почтой не найден";
+      break;
+
+    case "auth/email-already-in-use":
+      status.textContent = "Этот email уже зарегистрирован";
+      break;
+
+    case "auth/weak-password":
+      status.textContent = "Пароль слишком простой (минимум 6 символов)";
+      break;
+
+    case "auth/too-many-requests":
+      status.textContent = "Слишком много попыток. Подождите пару минут ⏳";
+      break;
+
+    case "auth/invalid-email":
+      status.textContent = "Неверный формат email";
+      break;
+
+    case "auth/missing-password":
+      status.textContent = "Введите пароль";
+      break;
+
+    case "auth/missing-email":
+      status.textContent = "Введите email";
+      break;
+
+    default:
+      status.textContent = "Ошибка входа. Проверьте данные.";
+      console.error(e);
+      break;
   }
 }
+
 
 window.register = async () => {
   if (isLoading) return;
