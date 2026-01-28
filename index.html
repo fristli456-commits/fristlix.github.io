@@ -51,12 +51,23 @@ window.login = async () => {
     await signInWithEmailAndPassword(auth, email, password);
     status.style.color = "#00ff99";
     status.textContent = "Вы успешно вошли!";
-  } catch (e) {
-    status.style.color = "#ff4444";
-    status.textContent = e.message;
-  }
-};
+  catch (e) {
+  status.style.color = "#ff4444";
 
+  if (e.code === "auth/too-many-requests") {
+    status.textContent = "Слишком много попыток. Подождите несколько минут ⏳";
+  } else if (e.code === "auth/wrong-password") {
+    status.textContent = "Неверный пароль";
+  } else if (e.code === "auth/user-not-found") {
+    status.textContent = "Пользователь не найден";
+  } else if (e.code === "auth/email-already-in-use") {
+    status.textContent = "Этот email уже зарегистрирован";
+  } else if (e.code === "auth/weak-password") {
+    status.textContent = "Пароль слишком простой (минимум 6 символов)";
+  } else {
+    status.textContent = "Ошибка: " + e.message;
+  }
+}
 
 window.logout = async () => {
   await signOut(auth);
