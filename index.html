@@ -130,16 +130,15 @@ window.closeSettings = () => {
 
 /* Смена email */
 window.changeEmail = async () => {
-  const status = document.getElementById("status");
   const user = auth.currentUser;
+  const status = document.getElementById("status");
+  const newEmail = document.getElementById("new-email").value;
 
   if (!user) {
     status.style.color = "#ff4444";
     status.textContent = "Сначала войдите в аккаунт";
     return;
   }
-
-  const newEmail = document.getElementById("new-email").value.trim();
 
   if (!newEmail) {
     status.style.color = "#ff4444";
@@ -151,17 +150,23 @@ window.changeEmail = async () => {
     await updateEmail(user, newEmail);
     status.style.color = "#00ff99";
     status.textContent = "Email успешно изменён!";
-    document.getElementById("new-email").value = "";
   } catch (e) {
-    showError(status, e);
+    if (e.code === "auth/requires-recent-login") {
+      status.style.color = "#ff4444";
+      status.textContent = "Для изменения email нужно войти заново";
+    } else {
+      showError(status, e);
+    }
   }
 };
 
 
+
 /* Смена пароля */
 window.changePassword = async () => {
-  const status = document.getElementById("status");
   const user = auth.currentUser;
+  const newPassword = document.getElementById("new-password").value;
+  const status = document.getElementById("status");
 
   if (!user) {
     status.style.color = "#ff4444";
@@ -169,9 +174,7 @@ window.changePassword = async () => {
     return;
   }
 
-  const newPassword = document.getElementById("new-password").value;
-
-  if (!newPassword || newPassword.length < 6) {
+  if (newPassword.length < 6) {
     status.style.color = "#ff4444";
     status.textContent = "Пароль должен быть минимум 6 символов";
     return;
@@ -181,11 +184,16 @@ window.changePassword = async () => {
     await updatePassword(user, newPassword);
     status.style.color = "#00ff99";
     status.textContent = "Пароль успешно изменён!";
-    document.getElementById("new-password").value = "";
   } catch (e) {
-    showError(status, e);
+    if (e.code === "auth/requires-recent-login") {
+      status.style.color = "#ff4444";
+      status.textContent = "Для изменения данных нужно войти заново";
+    } else {
+      showError(status, e);
+    }
   }
 };
+
 
 
 /* Проверка авторизации */
