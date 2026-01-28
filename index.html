@@ -30,24 +30,33 @@ const auth = getAuth(app);
 window.register = async () => {
   const email = document.getElementById("reg-email").value;
   const password = document.getElementById("reg-password").value;
+  const status = document.getElementById("status");
+
   try {
     await createUserWithEmailAndPassword(auth, email, password);
-    alert("Регистрация успешна!");
+    status.style.color = "#00ff99";
+    status.textContent = "Вы успешно зарегистрировались!";
   } catch (e) {
-    alert(e.message);
+    status.style.color = "#ff4444";
+    status.textContent = e.message;
   }
 };
 
 window.login = async () => {
   const email = document.getElementById("login-email").value;
   const password = document.getElementById("login-password").value;
+  const status = document.getElementById("status");
+
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    alert("Вход выполнен!");
+    status.style.color = "#00ff99";
+    status.textContent = "Вы успешно вошли!";
   } catch (e) {
-    alert(e.message);
+    status.style.color = "#ff4444";
+    status.textContent = e.message;
   }
 };
+
 
 window.logout = async () => {
   await signOut(auth);
