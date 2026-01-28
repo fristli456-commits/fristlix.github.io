@@ -121,11 +121,15 @@ window.logout = async () => {
 
 onAuthStateChanged(auth, (user) => {
   const status = document.getElementById("status");
+  const profileEmail = document.getElementById("profile-email");
 
   if (user) {
     status.innerHTML = `Вы вошли как: <b>${user.email}</b>`;
+    profileEmail.textContent = user.email;
+
     document.getElementById("auth").style.display = "none";
     document.getElementById("profile").style.display = "block";
+
   } else {
     status.textContent = "Вы не вошли";
     document.getElementById("auth").style.display = "flex";
@@ -217,13 +221,70 @@ button:hover {
   box-shadow: 0 0 10px red;
 }
 
-.profile-box {
-  background: rgba(20,0,0,0.9);
+.profile-card {
+  background: rgba(15, 0, 0, 0.95);
   border: 2px solid red;
+  border-radius: 20px;
   padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 0 25px rgba(255,0,0,0.7);
+  width: 300px;
+  text-align: center;
+  box-shadow: 
+    0 0 25px rgba(255, 0, 0, 0.7),
+    inset 0 0 15px rgba(255, 0, 0, 0.2);
+  animation: glow 2s infinite alternate;
 }
+
+@keyframes glow {
+  from { box-shadow: 0 0 15px red; }
+  to { box-shadow: 0 0 35px red; }
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, red, darkred);
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  font-size: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 20px red;
+}
+
+#profile-email {
+  color: #ccc;
+  font-size: 14px;
+  margin-bottom: 20px;
+  word-break: break-all;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.profile-btn {
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(45deg, #ff1a1a, darkred);
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.profile-btn:hover {
+  box-shadow: 0 0 15px red;
+  transform: scale(1.05);
+}
+
+.profile-btn.danger {
+  background: linear-gradient(45deg, #ff0000, #600000);
+}
+
 </style>
 </head>
 
@@ -250,16 +311,17 @@ button:hover {
   </div>
 
   <div id="profile" style="display:none;">
-    <div class="profile-box">
-      <h2>Профиль</h2>
-      <p>Вы успешно вошли 🎉</p>
-      <button type="button" onclick="logout()">Выйти</button>
+  <div class="profile-card">
+    <div class="avatar">👤</div>
+    <h2>Профиль</h2>
+    <p id="profile-email">email@example.com</p>
+
+    <div class="profile-actions">
+      <button class="profile-btn">Настройки</button>
+      <button class="profile-btn danger" onclick="logout()">Выйти</button>
     </div>
   </div>
 </div>
-
-</body>
-</html>
 
 </body>
 </html>
