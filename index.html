@@ -130,6 +130,8 @@ onAuthStateChanged(auth, (user) => {
     document.getElementById("auth").style.display = "none";
     document.getElementById("profile").style.display = "block";
 
+    document.getElementById("profile-email").textContent = user.email;
+
   } else {
     status.textContent = "Вы не вошли";
     document.getElementById("auth").style.display = "flex";
@@ -235,8 +237,16 @@ button:hover {
 }
 
 @keyframes glow {
-  from { box-shadow: 0 0 15px red; }
-  to { box-shadow: 0 0 35px red; }
+  from { 
+    box-shadow: 
+      0 0 15px rgba(255,0,0,0.6),
+      inset 0 0 10px rgba(255,0,0,0.2);
+  }
+  to { 
+    box-shadow: 
+      0 0 35px rgba(255,0,0,1),
+      inset 0 0 20px rgba(255,0,0,0.4);
+  }
 }
 
 .avatar {
@@ -314,7 +324,7 @@ button:hover {
   <div class="profile-card">
     <div class="avatar">👤</div>
     <h2>Профиль</h2>
-    <p id="profile-email">email@example.com</p>
+    <div id="profile-email">email@example.com</div>
 
     <div class="profile-actions">
       <button class="profile-btn">Настройки</button>
