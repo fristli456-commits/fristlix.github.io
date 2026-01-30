@@ -385,6 +385,15 @@ button:hover {
 
 <div class="container">
   <div class="logo">FristliX</div>
+  <div id="navbar" style="display:none; margin-bottom:20px;">
+  <button class="nav-btn" onclick="openTab('profile')">Профиль</button>
+  <button class="nav-btn" onclick="openTab('bots')">Боты</button>
+  <button class="nav-btn" onclick="openTab('settings')">Настройки</button>
+  <button id="admin-tab" class="nav-btn" onclick="openTab('admin')" style="display:none;">
+    Админ
+  </button>
+</div>
+
   <p id="status">Загрузка...</p>
 
   <div id="auth" class="auth-box">
@@ -416,6 +425,18 @@ button:hover {
   </div>
 </div>
 
+<div id="bots" style="display:none;">
+  <div class="profile-card">
+    <h2>Мои боты</h2>
+    <p>Здесь будут ваши купленные или созданные боты</p>
+
+    <div class="profile-actions">
+      <button class="profile-btn">Создать нового бота</button>
+      <button class="profile-btn">Мои шаблоны</button>
+    </div>
+  </div>
+</div>
+  
 <div id="settings" style="display:none;">
   <div class="profile-card">
     <h2>Настройки</h2>
@@ -431,5 +452,19 @@ button:hover {
   </div>
 </div>
 
+<div id="admin" style="display:none;">
+  <div class="profile-card">
+    <h2>Админ панель</h2>
+    <p>Управление системой</p>
+
+    <div class="profile-actions">
+      <button class="profile-btn">Просмотреть пользователей</button>
+      <button class="profile-btn">Управление ботами</button>
+      <button class="profile-btn danger">Заблокировать пользователя</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
+  
