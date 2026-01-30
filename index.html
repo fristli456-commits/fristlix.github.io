@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FristliX</title>
 
 <script type="module">
@@ -468,6 +469,51 @@ body {
 .hero-sub {
   color: #aaa;
   font-size: 18px;
+}
+
+/* ===== MOBILE ADAPTIVE ===== */
+
+@media (max-width: 768px) {
+
+  .header {
+    padding: 15px 20px;
+  }
+
+  .hero h1 {
+    font-size: 26px;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  .auth-box {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .box {
+    width: 90%;
+    max-width: 350px;
+  }
+
+  .profile-card {
+    width: 90%;
+    max-width: 350px;
+  }
+
+  #navbar {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .nav-btn {
+    width: 100%;
+  }
+
+  body {
+    padding-top: 80px;
+  }
 }
 
 </style>
