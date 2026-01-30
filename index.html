@@ -29,6 +29,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const ADMIN_EMAIL = "fristli456@gmail.com";
 
 let isLoading = false;
 
@@ -116,6 +117,15 @@ window.logout = async () => {
   await signOut(auth);
 };
 
+window.openTab = (tab) => {
+  document.getElementById("profile").style.display = "none";
+  document.getElementById("bots").style.display = "none";
+  document.getElementById("settings").style.display = "none";
+  document.getElementById("admin").style.display = "none";
+
+  document.getElementById(tab).style.display = "block";
+};
+
 /* Открыть настройки */
 window.openSettings = () => {
   document.getElementById("profile").style.display = "none";
@@ -195,7 +205,6 @@ window.changePassword = async () => {
 };
 
 
-
 /* Проверка авторизации */
 onAuthStateChanged(auth, (user) => {
   const status = document.getElementById("status");
@@ -205,21 +214,32 @@ onAuthStateChanged(auth, (user) => {
     status.innerHTML = `Вы вошли как: <b>${user.email}</b>`;
     status.style.color = "#00ff99";
 
-    if (profileEmail) {
-      profileEmail.textContent = user.email;
-    }
+    if (profileEmail) profileEmail.textContent = user.email;
 
     document.getElementById("auth").style.display = "none";
-    document.getElementById("profile").style.display = "block";
-    document.getElementById("settings").style.display = "none";
+    document.getElementById("navbar").style.display = "block";
+
+    openTab("profile");
+
+    if (user.email === ADMIN_EMAIL) {
+      document.getElementById("admin-tab").style.display = "inline-block";
+    } else {
+      document.getElementById("admin-tab").style.display = "none";
+    }
+
   } else {
     status.textContent = "Вы не вошли";
     status.style.color = "#ccc";
 
     document.getElementById("auth").style.display = "flex";
+    document.getElementById("navbar").style.display = "none";
+
     document.getElementById("profile").style.display = "none";
+    document.getElementById("bots").style.display = "none";
     document.getElementById("settings").style.display = "none";
+    document.getElementById("admin").style.display = "none";
   }
+  
 });
 </script>
 
