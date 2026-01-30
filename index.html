@@ -398,22 +398,102 @@ button:hover {
   background: linear-gradient(45deg, #ff0000, #600000);
 }
 
+/* ===== HEADER ===== */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+}
+
+.site-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #ff1a1a;
+  text-shadow: 0 0 15px red;
+}
+
+/* ===== NAVBAR ===== */
+
+.navbar {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-btn {
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  background: rgba(255,0,0,0.15);
+  color: white;
+  transition: 0.3s;
+}
+
+.nav-btn:hover {
+  background: red;
+  box-shadow: 0 0 15px red;
+  transform: translateY(-2px);
+}
+
+/* ===== PAGE CENTER FIX ===== */
+
+body {
+  padding-top: 100px;
+}
+
+/* ===== HERO SECTION ===== */
+
+.hero {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.hero-title {
+  font-size: 60px;
+  color: #ff1a1a;
+  text-shadow: 0 0 30px red;
+  margin-bottom: 10px;
+}
+
+.hero-sub {
+  color: #aaa;
+  font-size: 18px;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <div class="logo">FristliX</div>
-  <div id="navbar" style="display:none; margin-bottom:20px;">
-  <button class="nav-btn" onclick="openTab('profile')">Профиль</button>
-  <button class="nav-btn" onclick="openTab('bots')">Боты</button>
-  <button id="admin-tab" class="nav-btn" onclick="openTab('admin')" style="display:none;">
-    Админ
-  </button>
+<div class="header">
+  <div class="logo-top">FristliX</div>
+
+  <div id="navbar" class="nav-right" style="display:none;">
+    <button class="nav-btn" onclick="openTab('profile')">Профиль</button>
+    <button class="nav-btn" onclick="openTab('bots')">Боты</button>
+    <button id="admin-tab" class="nav-btn" onclick="openTab('admin')" style="display:none;">
+      Админ
+    </button>
+  </div>
 </div>
 
-  <p id="status">Загрузка...</p>
+<div class="hero">
+  <h1>Добро пожаловать в FristliX</h1>
+  <p>Платформа для продажи и управления Telegram ботами</p>
+</div>
+
+<p id="status">Загрузка...</p>
+
 
   <div id="auth" class="auth-box">
     <div class="box">
