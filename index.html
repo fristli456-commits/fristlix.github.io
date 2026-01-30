@@ -252,10 +252,17 @@ onAuthStateChanged(auth, (user) => {
 
 body {
   margin: 0;
-  min-height: 100vh;
   background: radial-gradient(circle at top, #160000, #000);
   color: white;
-  padding-top: 100px;
+  font-family: Arial, sans-serif;
+}
+
+.main-content {
+  min-height: 100vh;
+  padding-top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .container {
@@ -404,11 +411,12 @@ button:hover {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 20px 40px;
+  height: 80px;
+  padding: 0 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.8);
   backdrop-filter: blur(10px);
   z-index: 1000;
 }
@@ -556,6 +564,7 @@ button:hover {
   </div>
 </div>
 
+<div class="main-content">
 <div class="hero">
   <h1>Добро пожаловать в FristliX</h1>
   <p>Платформа для продажи и управления Telegram ботами</p>
