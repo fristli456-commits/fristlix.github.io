@@ -217,6 +217,9 @@ onAuthStateChanged(auth, (user) => {
 
   if (user) {
     status.innerHTML = `Вы вошли как: <b>${user.email}</b>`;
+
+    document.getElementById("right-panel").style.display = "none";
+
     status.style.color = "#00ff99";
 
     if (profileEmail) profileEmail.textContent = user.email;
@@ -230,6 +233,9 @@ onAuthStateChanged(auth, (user) => {
     }
 
   } else {
+
+    document.getElementById("right-panel").style.display = "none";
+
     status.textContent = "Вы не вошли";
     status.style.color = "#ccc";
 
@@ -615,7 +621,7 @@ button:hover {
     </div>
   </div>
 
-<div class="right-panel">
+<div class="right-panel" id="right-panel" style="display:none;">
 
   <!-- КОНТЕНТ -->
   <div id="profile" class="panel-content">
