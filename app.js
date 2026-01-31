@@ -205,7 +205,6 @@ onAuthStateChanged(auth, (user) => {
   const rightPanel = document.getElementById("right-panel");
   const marketplace = document.getElementById("marketplace");
   const hero = document.querySelector(".hero");
-
   const authBox = document.getElementById("auth");
 
   const botsTab = document.getElementById("bots-tab");
@@ -215,49 +214,47 @@ onAuthStateChanged(auth, (user) => {
 
   if (user) {
 
-    // 🔥 Скрываем приветствие и форму входа
+    // 🔥 Скрываем стартовый экран
     hero.style.display = "none";
     status.style.display = "none";
     authBox.style.display = "none";
 
-    // 🔥 Показываем маркетплейс и правую панель
+    // 🔥 Показываем каталог
     marketplace.style.display = "block";
+
+    // 🔥 Показываем правую панель
     rightPanel.style.display = "flex";
 
-    // Email в профиль
     if (profileEmail) {
       profileEmail.textContent = user.email;
     }
 
-    // Открываем профиль по умолчанию
-    openTab("profile");
-
-    // Сначала всё скрываем
+    // Сначала скрываем всё
     botsTab.style.display = "none";
     purchasesTab.style.display = "none";
     ordersTab.style.display = "none";
     adminTab.style.display = "none";
 
-    if (user.email === ADMIN_EMAIL) {
-      // 👑 Админ
+    // 👑 Если админ
+    if (user.email && user.email.toLowerCase().trim() === ADMIN_EMAIL.toLowerCase().trim()) {
       botsTab.style.display = "block";
       ordersTab.style.display = "block";
       adminTab.style.display = "block";
     } else {
-      // 👤 Пользователь
+      botsTab.style.display = "block"; // каталог доступен всем
       purchasesTab.style.display = "block";
     }
 
   } else {
 
-    // 🔥 Показываем приветствие и форму входа
+    // 🔥 Показываем стартовый экран
     hero.style.display = "block";
     status.style.display = "block";
     authBox.style.display = "flex";
 
-    // 🔥 Скрываем всё приватное
-    rightPanel.style.display = "none";
+    // 🔥 Скрываем каталог и панель
     marketplace.style.display = "none";
+    rightPanel.style.display = "none";
 
     botsTab.style.display = "none";
     purchasesTab.style.display = "none";
