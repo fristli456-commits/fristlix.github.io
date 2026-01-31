@@ -486,6 +486,23 @@ button:hover {
   width: 100%;
   margin-top: 150px; /* регулируй высоту тут */
 }
+.right-panel {
+  position: fixed;
+  top: 120px;
+  right: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nav-vertical {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
 
 /* ===== MOBILE FULL FIX ===== */
 
@@ -601,15 +618,28 @@ button:hover {
   </div>
 
   <div id="profile" style="display:none;">
-  <div class="profile-card">
-    <div class="avatar">👤</div>
-    <h2>Профиль</h2>
-    <p id="profile-email"></p>
+  <div class="right-panel">
 
-    <div class="profile-actions">
-      <button class="profile-btn" onclick="openSettings()">Настройки</button>
-      <button class="profile-btn danger" onclick="logout()">Выйти</button>
+    <div class="profile-card">
+      <div class="avatar">👤</div>
+      <h2>Профиль</h2>
+      <p id="profile-email"></p>
+
+      <div class="profile-actions">
+        <button class="profile-btn" onclick="openSettings()">Настройки</button>
+        <button class="profile-btn danger" onclick="logout()">Выйти</button>
+      </div>
     </div>
+
+    <!-- НОВЫЕ КНОПКИ -->
+    <div class="nav-vertical">
+      <button class="nav-btn" onclick="openTab('profile')">Профиль</button>
+      <button class="nav-btn" onclick="openTab('bots')">Боты</button>
+      <button id="admin-tab" class="nav-btn" onclick="openTab('admin')" style="display:none;">
+        Админ
+      </button>
+    </div>
+
   </div>
 </div>
 
