@@ -218,14 +218,11 @@ onAuthStateChanged(auth, (user) => {
     if (profileEmail) profileEmail.textContent = user.email;
 
     document.getElementById("auth").style.display = "none";
-    document.getElementById("navbar").style.display = "block";
 
     openTab("profile");
 
     if (user.email === ADMIN_EMAIL) {
       document.getElementById("admin-tab").style.display = "inline-block";
-    } else {
-      document.getElementById("admin-tab").style.display = "none";
     }
 
   } else {
@@ -233,15 +230,14 @@ onAuthStateChanged(auth, (user) => {
     status.style.color = "#ccc";
 
     document.getElementById("auth").style.display = "flex";
-    document.getElementById("navbar").style.display = "none";
 
     document.getElementById("profile").style.display = "none";
     document.getElementById("bots").style.display = "none";
     document.getElementById("settings").style.display = "none";
     document.getElementById("admin").style.display = "none";
   }
-  
 });
+
 </script>
 
 <style>
