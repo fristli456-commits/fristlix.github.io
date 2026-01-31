@@ -230,20 +230,25 @@ onAuthStateChanged(auth, (user) => {
     }
 
     // Сначала скрываем всё
-    botsTab.style.display = "none";
-    purchasesTab.style.display = "none";
-    ordersTab.style.display = "none";
-    adminTab.style.display = "none";
+botsTab.style.display = "none";
+purchasesTab.style.display = "none";
+ordersTab.style.display = "none";
+adminTab.style.display = "none";
 
-    // 👑 Если админ
-    if (user.email && user.email.toLowerCase().trim() === ADMIN_EMAIL.toLowerCase().trim()) {
-      botsTab.style.display = "block";
-      ordersTab.style.display = "block";
-      adminTab.style.display = "block";
-    } else {
-      botsTab.style.display = "block"; // каталог доступен всем
-      purchasesTab.style.display = "block";
-    }
+// Проверяем админа правильно
+if (user.email && user.email.toLowerCase().trim() === ADMIN_EMAIL.toLowerCase().trim()) {
+
+  // 👑 Админ
+  botsTab.style.display = "block";
+  ordersTab.style.display = "block";
+  adminTab.style.display = "block";
+
+} else {
+
+  // 👤 Пользователь
+  purchasesTab.style.display = "block";
+
+}
 
   } else {
 
