@@ -383,4 +383,77 @@ body.light-mode .nav-btn:hover {
   }
 }
 
+/* ===== MARKETPLACE ===== */
+
+.marketplace {
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 40px;
+  padding-bottom: 100px;
+}
+
+.market-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #ff1a1a;
+  text-shadow: 0 0 15px red;
+}
+
+.bot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.bot-card {
+  background: rgba(15,0,0,0.95);
+  border: 2px solid red;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(255,0,0,0.5);
+  transition: 0.3s;
+}
+
+.bot-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 25px red;
+}
+
+.bot-img {
+  font-size: 50px;
+  margin-bottom: 15px;
+}
+
+.bot-card h3 {
+  margin: 10px 0;
+  color: #ff3333;
+}
+
+.bot-card p {
+  font-size: 14px;
+  color: #ccc;
+  min-height: 40px;
+}
+
+.bot-price {
+  margin: 15px 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #00ff99;
+}
+
+.buy-btn {
+  background: linear-gradient(45deg, red, darkred);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.buy-btn:hover {
+  box-shadow: 0 0 15px red;
+}
 
