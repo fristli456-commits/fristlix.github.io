@@ -214,37 +214,37 @@ window.changePassword = async () => {
 onAuthStateChanged(auth, (user) => {
   const status = document.getElementById("status");
   const profileEmail = document.getElementById("profile-email");
+  const rightPanel = document.getElementById("right-panel");
 
   if (user) {
+
     status.innerHTML = `Вы вошли как: <b>${user.email}</b>`;
-
-    document.getElementById("right-panel").style.display = "none";
-
     status.style.color = "#00ff99";
 
     if (profileEmail) profileEmail.textContent = user.email;
 
     document.getElementById("auth").style.display = "none";
 
+    // 🔥 ПОКАЗЫВАЕМ правую панель
+    rightPanel.style.display = "flex";
+
+    // Открываем профиль по умолчанию
     openTab("profile");
 
+    // Админ кнопка
     if (user.email === ADMIN_EMAIL) {
-      document.getElementById("admin-tab").style.display = "inline-block";
+      document.getElementById("admin-tab").style.display = "block";
     }
 
   } else {
-
-    document.getElementById("right-panel").style.display = "none";
 
     status.textContent = "Вы не вошли";
     status.style.color = "#ccc";
 
     document.getElementById("auth").style.display = "flex";
 
-    document.getElementById("profile").style.display = "none";
-    document.getElementById("bots").style.display = "none";
-    document.getElementById("settings").style.display = "none";
-    document.getElementById("admin").style.display = "none";
+    // 🔥 СКРЫВАЕМ правую панель
+    rightPanel.style.display = "none";
   }
 });
 
