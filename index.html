@@ -248,6 +248,26 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+const themeBtn = document.getElementById("theme-toggle");
+
+themeBtn.addEventListener("click", () => {
+  document.body.classList.toggle("light-mode");
+
+  if (document.body.classList.contains("light-mode")) {
+    themeBtn.textContent = "☀";
+    localStorage.setItem("theme", "light");
+  } else {
+    themeBtn.textContent = "🌙";
+    localStorage.setItem("theme", "dark");
+  }
+});
+
+/* Сохранение темы после перезагрузки */
+if (localStorage.getItem("theme") === "light") {
+  document.body.classList.add("light-mode");
+  themeBtn.textContent = "☀";
+}
+
 </script>
 
 <style>
@@ -508,6 +528,57 @@ button:hover {
   display: block;
 }
 
+.theme-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: white;
+  transition: 0.3s;
+}
+
+.theme-btn:hover {
+  transform: scale(1.2);
+}
+
+body.light-mode {
+  background: #f5f5f5;
+  color: #111;
+}
+
+body.light-mode .profile-card,
+body.light-mode .box {
+  background: white;
+  border: 2px solid #ddd;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+body.light-mode input {
+  background: #eee;
+  border: 1px solid #ccc;
+  color: #111;
+}
+
+body.light-mode .site-title {
+  color: #111;
+  text-shadow: none;
+}
+
+body.light-mode .hero-title {
+  color: #111;
+  text-shadow: none;
+}
+
+body.light-mode .nav-btn {
+  background: #ddd;
+  color: #111;
+}
+
+body.light-mode .nav-btn:hover {
+  background: #bbb;
+  box-shadow: none;
+}
+
 /* ===== MOBILE FIX ===== */
 @media (max-width: 768px) {
 
@@ -583,6 +654,8 @@ button:hover {
 
 <div class="header">
   <div class="site-title">FristliX</div>
+
+  <button id="theme-toggle" class="theme-btn">🌙</button>
 </div>
 
 <div class="main-content">
