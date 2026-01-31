@@ -206,32 +206,43 @@ onAuthStateChanged(auth, (user) => {
 
   if (user) {
 
-    // 🔥 Скрываем приветственный блок
-    hero.style.display = "none";
-    status.style.display = "none";
+  const hero = document.querySelector(".hero");
+  hero.style.display = "none";
+  status.style.display = "none";
 
-    if (profileEmail) profileEmail.textContent = user.email;
+  if (profileEmail) profileEmail.textContent = user.email;
 
-    document.getElementById("auth").style.display = "none";
-    rightPanel.style.display = "flex";
+  document.getElementById("auth").style.display = "none";
+  rightPanel.style.display = "flex";
 
-    openTab("profile");
+  openTab("profile");
 
-    if (user.email === ADMIN_EMAIL) {
-      document.getElementById("admin-tab").style.display = "block";
-    }
+  const botsTab = document.getElementById("bots-tab");
+  const purchasesTab = document.getElementById("purchases-tab");
+  const ordersTab = document.getElementById("orders-tab");
+  const adminTab = document.getElementById("admin-tab");
 
+  if (user.email === ADMIN_EMAIL) {
+    // 👑 Админ
+    botsTab.style.display = "block";
+    ordersTab.style.display = "block";
+    adminTab.style.display = "block";
   } else {
-
-    // 🔥 Показываем обратно если вышел
-    hero.style.display = "block";
-    status.style.display = "block";
-
-    status.textContent = "Вы не вошли";
-    status.style.color = "#ccc";
-
-    document.getElementById("auth").style.display = "flex";
-    rightPanel.style.display = "none";
+    // 👤 Пользователь
+    purchasesTab.style.display = "block";
   }
+
+} else {
+
+  status.style.display = "block";
+  document.querySelector(".hero").style.display = "block";
+  document.getElementById("auth").style.display = "flex";
+  rightPanel.style.display = "none";
+
+  document.getElementById("bots-tab").style.display = "none";
+  document.getElementById("purchases-tab").style.display = "none";
+  document.getElementById("orders-tab").style.display = "none";
+  document.getElementById("admin-tab").style.display = "none";
+}
 });
 
