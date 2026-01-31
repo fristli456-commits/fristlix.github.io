@@ -456,3 +456,32 @@ body.light-mode .nav-btn:hover {
 .buy-btn:hover {
   box-shadow: 0 0 15px red;
 }
+
+/* ===== СВЕТЛАЯ ТЕМА — КАРТОЧКИ ТОВАРОВ ===== */
+
+body.light-mode .bot-card {
+  background: white;
+  border: 2px solid #e0e0e0;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+body.light-mode .bot-card h3 {
+  color: #111;
+}
+
+body.light-mode .bot-card p {
+  color: #555;
+}
+
+body.light-mode .price {
+  color: #00aa66;
+}
+
+body.light-mode .buy-btn {
+  background: linear-gradient(45deg, #ff4444, #cc0000);
+  color: white;
+}
+
+body.light-mode .buy-btn:hover {
+  box-shadow: 0 5px 15px rgba(255,0,0,0.3);
+}
