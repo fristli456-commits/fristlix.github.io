@@ -508,8 +508,7 @@ button:hover {
   display: block;
 }
 
-/* ===== MOBILE FULL FIX ===== */
-
+/* ===== MOBILE FIX ===== */
 @media (max-width: 768px) {
 
   body {
@@ -521,22 +520,8 @@ button:hover {
     padding: 12px 15px;
   }
 
-  .logo-top {
-    font-size: 18px;
-  }
-
-  /* NAVBAR */
-  #navbar {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    width: 110px;
-  }
-
-  .nav-btn {
-    width: 100%;
-    padding: 6px 8px;
-    font-size: 12px;
+  .site-title {
+    font-size: 20px;
   }
 
   /* HERO */
@@ -554,7 +539,7 @@ button:hover {
     font-size: 14px;
   }
 
-  /* AUTH BOX */
+  /* AUTH */
   .auth-box {
     flex-direction: column;
     align-items: center;
@@ -565,23 +550,30 @@ button:hover {
     max-width: 350px;
   }
 
-  /* PROFILE / BOTS / SETTINGS / ADMIN */
-  #profile,
-  #bots,
-  #settings,
-  #admin {
-    display: flex;
-    justify-content: center;
+  /* 🔥 ВАЖНО — исправляем правую панель */
+  .right-panel {
+    position: relative;   /* убираем fixed */
+    top: 0;
+    right: 0;
+    width: 100%;
     align-items: center;
-    padding: 0 10px;
-  }
-
-  .profile-card {
-    width: 95%;
-    max-width: 350px;
     margin-top: 20px;
   }
 
+  .profile-card {
+    width: 90%;
+    max-width: 350px;
+    margin: 0 auto 20px auto;
+  }
+
+  .nav-vertical {
+    width: 90%;
+  }
+
+  .nav-btn {
+    width: 100%;
+    font-size: 14px;
+  }
 }
 
 </style>
