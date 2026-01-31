@@ -248,25 +248,27 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-const themeBtn = document.getElementById("theme-toggle");
+document.addEventListener("DOMContentLoaded", () => {
+  const themeBtn = document.getElementById("theme-toggle");
 
-themeBtn.addEventListener("click", () => {
-  document.body.classList.toggle("light-mode");
+  themeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("light-mode");
 
-  if (document.body.classList.contains("light-mode")) {
+    if (document.body.classList.contains("light-mode")) {
+      themeBtn.textContent = "☀";
+      localStorage.setItem("theme", "light");
+    } else {
+      themeBtn.textContent = "🌙";
+      localStorage.setItem("theme", "dark");
+    }
+  });
+
+  // Сохранение темы
+  if (localStorage.getItem("theme") === "light") {
+    document.body.classList.add("light-mode");
     themeBtn.textContent = "☀";
-    localStorage.setItem("theme", "light");
-  } else {
-    themeBtn.textContent = "🌙";
-    localStorage.setItem("theme", "dark");
   }
 });
-
-/* Сохранение темы после перезагрузки */
-if (localStorage.getItem("theme") === "light") {
-  document.body.classList.add("light-mode");
-  themeBtn.textContent = "☀";
-}
 
 </script>
 
@@ -529,20 +531,28 @@ button:hover {
 }
 
 .theme-btn {
-  background: none;
+  width: 36px;
+  height: 36px;
+  margin-left: 12px;
+  border-radius: 8px;
   border: none;
-  font-size: 22px;
   cursor: pointer;
-  color: white;
+  font-size: 18px;
+  background: rgba(255, 0, 0, 0.15);
+  color: #ff1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: 0.3s;
 }
 
 .theme-btn:hover {
-  transform: scale(1.2);
+  background: red;
+  color: white;
 }
 
 body.light-mode {
-  background: #f5f5f5;
+  background: #ececec;
   color: #111;
 }
 
