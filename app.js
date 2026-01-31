@@ -199,50 +199,70 @@ window.changePassword = async () => {
 /* ============================= */
 
 onAuthStateChanged(auth, (user) => {
+
   const status = document.getElementById("status");
   const profileEmail = document.getElementById("profile-email");
   const rightPanel = document.getElementById("right-panel");
+  const marketplace = document.getElementById("marketplace");
   const hero = document.querySelector(".hero");
 
-  if (user) {
-
-  const hero = document.querySelector(".hero");
-  hero.style.display = "none";
-  status.style.display = "none";
-
-  if (profileEmail) profileEmail.textContent = user.email;
-
-  document.getElementById("auth").style.display = "none";
-  rightPanel.style.display = "flex";
-
-  openTab("profile");
+  const authBox = document.getElementById("auth");
 
   const botsTab = document.getElementById("bots-tab");
   const purchasesTab = document.getElementById("purchases-tab");
   const ordersTab = document.getElementById("orders-tab");
   const adminTab = document.getElementById("admin-tab");
 
-  if (user.email === ADMIN_EMAIL) {
-    // 👑 Админ
-    botsTab.style.display = "block";
-    ordersTab.style.display = "block";
-    adminTab.style.display = "block";
+  if (user) {
+
+    // 🔥 Скрываем приветствие и форму входа
+    hero.style.display = "none";
+    status.style.display = "none";
+    authBox.style.display = "none";
+
+    // 🔥 Показываем маркетплейс и правую панель
+    marketplace.style.display = "block";
+    rightPanel.style.display = "flex";
+
+    // Email в профиль
+    if (profileEmail) {
+      profileEmail.textContent = user.email;
+    }
+
+    // Открываем профиль по умолчанию
+    openTab("profile");
+
+    // Сначала всё скрываем
+    botsTab.style.display = "none";
+    purchasesTab.style.display = "none";
+    ordersTab.style.display = "none";
+    adminTab.style.display = "none";
+
+    if (user.email === ADMIN_EMAIL) {
+      // 👑 Админ
+      botsTab.style.display = "block";
+      ordersTab.style.display = "block";
+      adminTab.style.display = "block";
+    } else {
+      // 👤 Пользователь
+      purchasesTab.style.display = "block";
+    }
+
   } else {
-    // 👤 Пользователь
-    purchasesTab.style.display = "block";
+
+    // 🔥 Показываем приветствие и форму входа
+    hero.style.display = "block";
+    status.style.display = "block";
+    authBox.style.display = "flex";
+
+    // 🔥 Скрываем всё приватное
+    rightPanel.style.display = "none";
+    marketplace.style.display = "none";
+
+    botsTab.style.display = "none";
+    purchasesTab.style.display = "none";
+    ordersTab.style.display = "none";
+    adminTab.style.display = "none";
   }
 
-} else {
-
-  status.style.display = "block";
-  document.querySelector(".hero").style.display = "block";
-  document.getElementById("auth").style.display = "flex";
-  rightPanel.style.display = "none";
-
-  document.getElementById("bots-tab").style.display = "none";
-  document.getElementById("purchases-tab").style.display = "none";
-  document.getElementById("orders-tab").style.display = "none";
-  document.getElementById("admin-tab").style.display = "none";
-}
 });
-
