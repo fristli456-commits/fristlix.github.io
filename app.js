@@ -199,17 +199,16 @@ window.changePassword = async () => {
 /* ============================= */
 
 onAuthStateChanged(auth, (user) => {
-
   const status = document.getElementById("status");
   const profileEmail = document.getElementById("profile-email");
   const rightPanel = document.getElementById("right-panel");
-
-  if (!status || !rightPanel) return;
+  const hero = document.querySelector(".hero");
 
   if (user) {
 
-    status.innerHTML = `Вы вошли как: <b>${user.email}</b>`;
-    status.style.color = "#00ff99";
+    // 🔥 Скрываем приветственный блок
+    hero.style.display = "none";
+    status.style.display = "none";
 
     if (profileEmail) profileEmail.textContent = user.email;
 
@@ -224,10 +223,15 @@ onAuthStateChanged(auth, (user) => {
 
   } else {
 
-    status.textContent = "";
+    // 🔥 Показываем обратно если вышел
+    hero.style.display = "block";
+    status.style.display = "block";
+
+    status.textContent = "Вы не вошли";
+    status.style.color = "#ccc";
+
     document.getElementById("auth").style.display = "flex";
     rightPanel.style.display = "none";
-
   }
-
 });
+
