@@ -102,15 +102,45 @@
       </div>
     </div>
 
-    <div class="nav-vertical">
-      <button class="nav-btn" onclick="openTab('profile')">Профиль</button>
-      <button class="nav-btn" onclick="openTab('bots')">Боты</button>
-      <button id="admin-tab" class="nav-btn" onclick="openTab('admin')" style="display:none;">
-        Админ
-      </button>
-    </div>
-
+    <!-- Покупки пользователя -->
+<div id="purchases" class="panel-content">
+  <div class="profile-card">
+    <h2>Мои покупки</h2>
+    <p>Здесь будут отображаться ваши покупки</p>
   </div>
+</div>
+
+<!-- Заказы админа -->
+<div id="orders" class="panel-content">
+  <div class="profile-card">
+    <h2>Активные заказы</h2>
+    <p>Здесь админ видит заказы пользователей</p>
+  </div>
+</div>
+
+    <div class="nav-vertical">
+
+  <button class="nav-btn" onclick="openTab('profile')">
+    Профиль
+  </button>
+
+  <button id="bots-tab" class="nav-btn" onclick="openTab('bots')" style="display:none;">
+    Боты
+  </button>
+
+  <button id="purchases-tab" class="nav-btn" onclick="openTab('purchases')" style="display:none;">
+    Покупки
+  </button>
+
+  <button id="orders-tab" class="nav-btn" onclick="openTab('orders')" style="display:none;">
+    Заказы
+  </button>
+
+  <button id="admin-tab" class="nav-btn" onclick="openTab('admin')" style="display:none;">
+    Админ
+  </button>
+
+</div>
 
 </div>
   
