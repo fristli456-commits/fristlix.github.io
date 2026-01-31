@@ -119,12 +119,16 @@ window.logout = async () => {
 };
 
 window.openTab = (tab) => {
-  document.getElementById("profile").style.display = "none";
-  document.getElementById("bots").style.display = "none";
-  document.getElementById("settings").style.display = "none";
-  document.getElementById("admin").style.display = "none";
+  const panels = document.querySelectorAll(".panel-content");
 
-  document.getElementById(tab).style.display = "block";
+  panels.forEach(panel => {
+    panel.style.display = "none";
+  });
+
+  const activePanel = document.getElementById(tab);
+  if (activePanel) {
+    activePanel.style.display = "block";
+  }
 };
 
 /* Открыть настройки */
@@ -489,6 +493,14 @@ button:hover {
   width: 100%;
 }
 
+/* Управление вкладками справа */
+.panel-content {
+  display: none;
+}
+
+.panel-content.active {
+  display: block;
+}
 
 /* ===== MOBILE FULL FIX ===== */
 
@@ -603,9 +615,10 @@ button:hover {
     </div>
   </div>
 
-  <div id="profile" style="display:none;">
-  <div class="right-panel">
+<div class="right-panel">
 
+  <!-- КОНТЕНТ -->
+  <div id="profile" class="panel-content">
     <div class="profile-card">
       <div class="avatar">👤</div>
       <h2>Профиль</h2>
@@ -616,58 +629,56 @@ button:hover {
         <button class="profile-btn danger" onclick="logout()">Выйти</button>
       </div>
     </div>
-
-    <!-- НОВЫЕ КНОПКИ -->
-    <div class="nav-vertical">
-      <button class="nav-btn" onclick="openTab('profile')">Профиль</button>
-      <button class="nav-btn" onclick="openTab('bots')">Боты</button>
-      <button id="admin-tab" class="nav-btn" onclick="openTab('admin')" style="display:none;">
-        Админ
-      </button>
-    </div>
-
   </div>
-</div>
 
-<div id="bots" style="display:none;">
-  <div class="profile-card">
-    <h2>Мои боты</h2>
-    <p>Здесь будут ваши купленные или созданные боты</p>
+  <div id="bots" class="panel-content" style="display:none;">
+    <div class="profile-card">
+      <h2>Мои боты</h2>
+      <p>Здесь будут ваши купленные или созданные боты</p>
 
-    <div class="profile-actions">
-      <button class="profile-btn">Создать нового бота</button>
-      <button class="profile-btn">Мои шаблоны</button>
+      <div class="profile-actions">
+        <button class="profile-btn">Создать нового бота</button>
+        <button class="profile-btn">Мои шаблоны</button>
+      </div>
     </div>
   </div>
-</div>
-  
-<div id="settings" style="display:none;">
-  <div class="profile-card">
-    <h2>Настройки</h2>
 
-    <input id="new-email" placeholder="Новый Email">
-    <input id="new-password" type="password" placeholder="Новый пароль">
+  <div id="settings" class="panel-content" style="display:none;">
+    <div class="profile-card">
+      <h2>Настройки</h2>
 
-    <div class="profile-actions">
-      <button class="profile-btn" onclick="changeEmail()">Сменить Email</button>
-      <button class="profile-btn" onclick="changePassword()">Сменить пароль</button>
-      <button class="profile-btn danger" onclick="closeSettings()">Назад</button>
+      <input id="new-email" placeholder="Новый Email">
+      <input id="new-password" type="password" placeholder="Новый пароль">
+
+      <div class="profile-actions">
+        <button class="profile-btn" onclick="changeEmail()">Сменить Email</button>
+        <button class="profile-btn" onclick="changePassword()">Сменить пароль</button>
+        <button class="profile-btn danger" onclick="openTab('profile')">Назад</button>
+      </div>
     </div>
   </div>
-</div>
 
-<div id="admin" style="display:none;">
-  <div class="profile-card">
-    <h2>Админ панель</h2>
-    <p>Управление системой</p>
+  <div id="admin" class="panel-content" style="display:none;">
+    <div class="profile-card">
+      <h2>Админ панель</h2>
+      <p>Управление системой</p>
 
-    <div class="profile-actions">
-      <button class="profile-btn">Просмотреть пользователей</button>
-      <button class="profile-btn">Управление ботами</button>
-      <button class="profile-btn danger">Заблокировать пользователя</button>
+      <div class="profile-actions">
+        <button class="profile-btn">Просмотреть пользователей</button>
+        <button class="profile-btn">Управление ботами</button>
+        <button class="profile-btn danger">Заблокировать пользователя</button>
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- КНОПКИ НАВИГАЦИИ -->
+  <div class="nav-vertical">
+    <button class="nav-btn" onclick="openTab('profile')">Профиль</button>
+    <button class="nav-btn" onclick="openTab('bots')">Боты</button>
+    <button id="admin-tab" class="nav-btn" onclick="openTab('admin')" style="display:none;">
+      Админ
+    </button>
+  </div>
 
 </div>
   
