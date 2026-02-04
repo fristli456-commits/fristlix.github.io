@@ -8,7 +8,8 @@ import {
   onAuthStateChanged,
   updateEmail,
   updatePassword,
-  sendEmailVerification
+  sendEmailVerification,
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 /* Firebase config */
@@ -102,7 +103,7 @@ window.register = async () => {
     await sendEmailVerification(userCredential.user);
 
     status.style.color = "#00ff99";
-    status.textContent = "Письмо подтверждения отправлено на email!";
+    status.textContent = "Письмо для подтверждения отправлено на email!";
 
     await signOut(auth);
 
@@ -177,19 +178,38 @@ window.openSettings = () => {
 /* ============================= */
 
 window.changePassword = async () => {
-  const email = auth.currentUser?.email;
+  const user = auth.currentUser;
   const status = document.getElementById("status");
 
-  if (!email) {
+  if (!user) {
     status.style.color = "#ff4444";
     status.textContent = "Сначала войдите в аккаунт";
     return;
   }
 
   try {
-    await sendPasswordResetEmail(auth, email);
+    await sendPasswordResetEmail(auth, user.email);
     status.style.color = "#00ff99";
-    status.textContent = "Письмо для смены пароля отправлено на email!";
+    status.textContent = "Письмо для смены пароля отправлено!";
+  } catch (e) {
+    showError(status, e);
+  }
+};
+
+window.resendVerification = async () => {
+  const user = auth.currentUser;
+  const status = document.getElementById("status");
+
+  if (!user) {
+    status.style.color = "#ff4444";
+    status.textContent = "Сначала войдите в аккаунт";
+    return;
+  }
+
+  try {
+    await sendEmailVerification(user);
+    status.style.color = "#00ff99";
+    status.textContent = "Письмо отправлено повторно!";
   } catch (e) {
     showError(status, e);
   }
@@ -199,7 +219,7 @@ window.changePassword = async () => {
 /* 🔥 ПРОВЕРКА АВТОРИЗАЦИИ */
 /* ============================= */
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
 
   const status = document.getElementById("status");
   const profileEmail = document.getElementById("profile-email");
@@ -215,52 +235,54 @@ onAuthStateChanged(auth, (user) => {
 
   if (user) {
 
-    // 🔥 Скрываем стартовый экран
+    // 🔥 ОБНОВЛЯЕМ данные пользователя
+    await user.reload();
+
+    // ❌ Если email НЕ подтверждён
+    if (!user.emailVerified) {
+      await signOut(auth);
+      status.style.color = "#ff4444";
+      status.textContent = "Подтвердите email перед входом!";
+      return;
+    }
+
+    // ====== ДОСТУП РАЗРЕШЁН ======
+
     hero.style.display = "none";
     status.style.display = "none";
     authBox.style.display = "none";
 
-    // 🔥 Показываем каталог
     marketplace.style.display = "block";
-
-    // 🔥 Показываем правую панель
     rightPanel.style.display = "flex";
 
     if (profileEmail) {
       profileEmail.textContent = user.email;
     }
 
-    // Сначала скрываем всё
-botsTab.style.display = "none";
-purchasesTab.style.display = "none";
-ordersTab.style.display = "none";
-adminTab.style.display = "none";
+    openTab("profile");
 
-// Проверяем админа правильно
-if (user.email && user.email.toLowerCase().trim() === ADMIN_EMAIL.toLowerCase().trim()) {
+    // Скрываем всё
+    botsTab.style.display = "none";
+    purchasesTab.style.display = "none";
+    ordersTab.style.display = "none";
+    adminTab.style.display = "none";
 
-  // 👑 Админ
-  botsTab.style.display = "block";
-  ordersTab.style.display = "block";
-  adminTab.style.display = "block";
-
-} else {
-
-  // 👤 Пользователь
-  purchasesTab.style.display = "block";
-
-}
+    if (user.email === ADMIN_EMAIL) {
+      botsTab.style.display = "block";
+      ordersTab.style.display = "block";
+      adminTab.style.display = "block";
+    } else {
+      purchasesTab.style.display = "block";
+    }
 
   } else {
 
-    // 🔥 Показываем стартовый экран
     hero.style.display = "block";
     status.style.display = "block";
     authBox.style.display = "flex";
 
-    // 🔥 Скрываем каталог и панель
-    marketplace.style.display = "none";
     rightPanel.style.display = "none";
+    marketplace.style.display = "none";
 
     botsTab.style.display = "none";
     purchasesTab.style.display = "none";
