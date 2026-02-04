@@ -183,16 +183,19 @@ window.openSettings = () => {
 /* ============================= */
 
 window.changePassword = async () => {
-  const user = auth.currentUser;
-  const newPassword = document.getElementById("new-password").value;
+  const email = auth.currentUser?.email;
   const status = document.getElementById("status");
 
-  if (!user) return;
+  if (!email) {
+    status.style.color = "#ff4444";
+    status.textContent = "Сначала войдите в аккаунт";
+    return;
+  }
 
   try {
-    await updatePassword(user, newPassword);
+    await sendPasswordResetEmail(auth, email);
     status.style.color = "#00ff99";
-    status.textContent = "Пароль обновлён!";
+    status.textContent = "Письмо для смены пароля отправлено на email!";
   } catch (e) {
     showError(status, e);
   }
