@@ -97,9 +97,17 @@ window.register = async () => {
   const status = document.getElementById("status");
 
   try {
-    await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+    // 📩 Отправляем письмо подтверждения
+    await sendEmailVerification(userCredential.user);
+
     status.style.color = "#00ff99";
-    status.textContent = "Регистрация успешна!";
+    status.textContent = "Регистрация успешна! Проверьте почту для подтверждения.";
+
+    // 🔥 Выходим из аккаунта пока email не подтвержден
+    await signOut(auth);
+
   } catch (e) {
     showError(status, e);
   } finally {
@@ -120,9 +128,25 @@ window.login = async () => {
   const status = document.getElementById("status");
 
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // 🔥 Проверяем подтверждение email
+    if (!user.emailVerified) {
+
+      status.style.color = "#ff4444";
+      status.textContent = "Подтвердите email перед входом!";
+
+      // отправим повторно письмо подтверждения
+      await sendEmailVerification(user);
+
+      await signOut(auth);
+      return;
+    }
+
     status.style.color = "#00ff99";
     status.textContent = "Вы вошли!";
+
   } catch (e) {
     showError(status, e);
   } finally {
