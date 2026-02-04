@@ -127,18 +127,12 @@ window.login = async () => {
 
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
 
-    // 🔥 Проверяем подтверждение email
-    if (!user.emailVerified) {
-
+    // 🔥 ВОТ ГЛАВНАЯ ПРОВЕРКА
+    if (!userCredential.user.emailVerified) {
+      await signOut(auth);
       status.style.color = "#ff4444";
       status.textContent = "Подтвердите email перед входом!";
-
-      // отправим повторно письмо подтверждения
-      await sendEmailVerification(user);
-
-      await signOut(auth);
       return;
     }
 
