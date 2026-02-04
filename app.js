@@ -99,13 +99,11 @@ window.register = async () => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-    // 📩 Отправляем письмо подтверждения
     await sendEmailVerification(userCredential.user);
 
     status.style.color = "#00ff99";
-    status.textContent = "Регистрация успешна! Проверьте почту для подтверждения.";
+    status.textContent = "Письмо подтверждения отправлено на email!";
 
-    // 🔥 Выходим из аккаунта пока email не подтвержден
     await signOut(auth);
 
   } catch (e) {
@@ -178,26 +176,6 @@ window.openTab = (tab) => {
 window.openSettings = () => {
   document.getElementById("profile").style.display = "none";
   document.getElementById("settings").style.display = "block";
-};
-
-/* ============================= */
-/* 🔥 СМЕНА EMAIL */
-/* ============================= */
-
-window.changeEmail = async () => {
-  const user = auth.currentUser;
-  const status = document.getElementById("status");
-  const newEmail = document.getElementById("new-email").value;
-
-  if (!user) return;
-
-  try {
-    await updateEmail(user, newEmail);
-    status.style.color = "#00ff99";
-    status.textContent = "Email обновлён!";
-  } catch (e) {
-    showError(status, e);
-  }
 };
 
 /* ============================= */
